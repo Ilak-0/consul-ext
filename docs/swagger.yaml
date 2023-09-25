@@ -1,0 +1,110 @@
+definitions:
+  resp.Response:
+    properties:
+      code:
+        example: 10000
+        type: integer
+      data: {}
+      detail:
+        example: ""
+        type: string
+      msg:
+        example: success
+        type: string
+    type: object
+info:
+  contact: {}
+  description: A manager for hosts
+  license:
+    name: MIT
+  termsOfService: http://127.0.0.1:8080
+  title: Consul Control API
+  version: "1.0"
+paths:
+  /api/v1/consul-ext/{repoType}/webhook:
+    post:
+      parameters:
+      - description: repo type eg:gitlab,gitea only use one of them
+        in: path
+        name: repoType
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resp.Response'
+      summary: sync git repo to consul
+      tags:
+      - ConsulKV
+  /api/v1/consul-ext/kv:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resp.Response'
+      summary: sync all consul kv to git repo
+      tags:
+      - ConsulKV
+  /api/v1/consul-ext/path/file:
+    put:
+      parameters:
+      - description: path eg:/path/to/file
+        in: query
+        name: path
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resp.Response'
+      summary: sync git repo to consul
+      tags:
+      - ConsulKV
+  /api/v1/consul-ext/svc/restore:
+    put:
+      parameters:
+      - description: "service name,eg:service1,service2\t use 'all' to restore all
+          services"
+        in: query
+        name: svcName
+        required: true
+        type: string
+      - description: 'consul time,eg: 2023-09-01'
+        in: query
+        name: backupTime
+        required: true
+        type: string
+      - description: read consul agent address
+        in: query
+        name: readConsulAddress
+        required: true
+        type: string
+      - description: write consul agent address
+        in: query
+        name: writeConsulAddress
+        type: string
+      - description: whether delete current svcs
+        in: query
+        name: deleteCurrentSvcs
+        required: true
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resp.Response'
+      summary: restore services from mysql consul to consul
+      tags:
+      - backupConsulSvcs
+swagger: "2.0"

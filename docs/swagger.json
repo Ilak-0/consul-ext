@@ -1,0 +1,165 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "A manager for hosts",
+        "title": "Consul Control API",
+        "termsOfService": "http://127.0.0.1:8080",
+        "contact": {},
+        "license": {
+            "name": "MIT"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/v1/consul-ext/kv": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ConsulKV"
+                ],
+                "summary": "sync all consul kv to git repo",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/consul-ext/path/file": {
+            "put": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ConsulKV"
+                ],
+                "summary": "sync git repo to consul",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "path eg:/path/to/file",
+                        "name": "path",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/consul-ext/svc/restore": {
+            "put": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "backupConsulSvcs"
+                ],
+                "summary": "restore services from mysql consul to consul",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "service name,eg:service1,service2\t use 'all' to restore all services",
+                        "name": "svcName",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "consul time,eg: 2023-09-01",
+                        "name": "backupTime",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "read consul agent address",
+                        "name": "readConsulAddress",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "write consul agent address",
+                        "name": "writeConsulAddress",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "whether delete current svcs",
+                        "name": "deleteCurrentSvcs",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/consul-ext/{repoType}/webhook": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ConsulKV"
+                ],
+                "summary": "sync git repo to consul",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "repo type eg:gitlab,gitea only use one of them",
+                        "name": "repoType",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Response"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "resp.Response": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 10000
+                },
+                "data": {},
+                "detail": {
+                    "type": "string",
+                    "example": ""
+                },
+                "msg": {
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        }
+    }
+}

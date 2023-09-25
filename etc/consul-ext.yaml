@@ -1,0 +1,37 @@
+database: # mysql
+  host: your mysql host IP
+  port: your mysql port
+  username: your mysql username
+  password: your mysql password
+  dbname: your mysql dbname
+# you can use gitea or gitlab, only one of them.
+# I recommend you use gitlab, because it is more stable.
+# gitea is free,but its restful api is not abundant.It only can push file one by one.So it's slower.
+# however, use all kv sync api is Low frequency,you can even use it only once,it's OK.
+gitlab:
+  host: your repo host IP
+  port: you repo port
+  # if use url ,host and port will be ignored
+  url: your gitlab url # eg: http://www.mygitlab.net
+  repo: your_group/your_repo
+  branch: master
+  token: your gitlab token
+gitea:
+  host: your repo host IP
+  port: you repo port
+  # if use url ,host and port will be ignored
+  url: your gitlab url # eg: http://www.mygitea.net
+  owner: your_repo_user
+  repo: your_repo
+  branch: main
+  token: your gitea token
+consul:
+  - host: your consul host IP
+    port: you repo port
+    svc_name: # if not set, it will be all service backup
+      - node_exporter
+      - wmi_exporter
+      - prometheus
+backup_time: 7d
+kv_prefix:
+
