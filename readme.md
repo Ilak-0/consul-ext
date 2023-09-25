@@ -66,4 +66,4 @@ PUT # sync git repo file to consul
 POST # webhook sync git repo change to consul
 /api/v1/consul-ext/:repoType/webhook
 ```
-## deploy this project,use docker or k8s,then start sync
+5. deploy this project,use docker or k8s,then start sync
