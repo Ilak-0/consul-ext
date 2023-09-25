@@ -1,7 +1,8 @@
 # consul-ext
 ## use
-1. You can use consul-ext backup your consul agent services and kvs to mysql. You can also quickly restore Consul kvs and services from MySQL data
+1. You can use consul-ext backup your consul agent services to mysql. You can also quickly restore Consul agent services from MySQL data
 2. GitOpt. you can commit msg to a bound repo, it will update kv to consul.In this way,you can log who and when update kv.
+3. Consul-ext will watch consul change.If your consul kv change, it will update git repo code per 10 seconds
 ## begin
 1. create config in /etc
 ```yaml
