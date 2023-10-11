@@ -3,6 +3,7 @@ package service
 import (
 	"bytes"
 	"consul-ext/pkg/config"
+	"consul-ext/pkg/tool"
 	"context"
 	"encoding/base64"
 	"fmt"
@@ -134,11 +135,11 @@ func WatchKVChangeRecord(ctx context.Context, path string) {
 	for _, consulAddress := range consul.AddressList {
 		go func(consulAddress string) {
 			consulIp := strings.Split(consulAddress, ":")[0]
-			config, err := consul.ClientMap.GetConfig(consulAddress)
+			c, err := consul.ClientMap.GetConfig(consulAddress)
 			if err != nil {
 				return
 			}
-			watch := consul.NewWatch(config.Client, 4*time.Second, 5*time.Second)
+			watch := consul.NewWatch(c.Client, 4*time.Second, 5*time.Second)
 			KVPairs, err := watch.WatchTree(ctx, path)
 			if err != nil {
 				log.Println(err)
@@ -146,6 +147,9 @@ func WatchKVChangeRecord(ctx context.Context, path string) {
 			}
 			for {
 				for _, kv := range <-KVPairs {
+					if tool.PrefixStr(config.Data.ExcludeKey, kv.Key) {
+						continue
+					}
 					err := saveFile(git_repo.APIFunc(), consulIp+"/"+kv.Key, kv.Value)
 					if err != nil {
 						fmt.Println("Error saving file:", err)

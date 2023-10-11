@@ -69,6 +69,8 @@ type Config struct {
 		Port    int      `yaml:"port"`
 		SvcName []string `yaml:"svc_name"`
 	} `yaml:"consul"`
-	BackupTime string `yaml:"backup_time"` // backup store time,only days
-	KVPefix    string `yaml:"kv_prefix"`
+	BackupTime    string   `yaml:"backup_time"` // backup store time,only days
+	KVPefix       string   `yaml:"kv_prefix"`
+	ExcludeKey    []string `yaml:"exclude_key"`
+	ConsulKVWatch bool     `yaml:"consul_kv_watch"`
 }

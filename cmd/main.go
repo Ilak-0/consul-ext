@@ -3,6 +3,7 @@ package main
 import (
 	"consul-ext/config"
 	"consul-ext/cron"
+	cfg "consul-ext/pkg/config"
 	"consul-ext/router"
 	"consul-ext/service"
 	"log"
@@ -20,6 +21,8 @@ func init() {
 func main() {
 	config.Init() // config init
 	go cron.SyncConsulExporterTags()
-	go service.KvWatchBackup()
+	if cfg.Data.ConsulKVWatch {
+		go service.KvWatchBackup()
+	}
 	router.Run()
 }

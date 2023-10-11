@@ -16,15 +16,15 @@ gitlab:
   repo: your_group/your_repo
   branch: master
   token: your gitlab token
-gitea:
-  host: your repo host IP
-  port: you repo port
-  # if use url ,host and port will be ignored
-  url: your gitlab url # eg: http://www.mygitea.net
-  owner: your_repo_user
-  repo: your_repo
-  branch: main
-  token: your gitea token
+#gitea:
+#  host: your repo host IP
+#  port: you repo port
+#  # if use url ,host and port will be ignored
+#  url: your gitlab url # eg: http://www.mygitea.net
+#  owner: your_repo_user
+#  repo: your_repo
+#  branch: main
+#  token: your gitea token
 consul:
   - host: your consul host IP
     port: you repo port
@@ -32,6 +32,10 @@ consul:
       - node_exporter
       - wmi_exporter
       - prometheus
+
 backup_time: 7d
+consul_kv_watch: true
 kv_prefix:
+exclude_key:
+  - event
 
